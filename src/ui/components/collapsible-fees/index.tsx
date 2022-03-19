@@ -6,19 +6,19 @@ import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 import { ExpandMoreIconButton } from '../expand-more-icon-button'
 
-interface CollapsedFeesProps {
+interface CollapsibleFeesProps {
   title: string
   initialIsExpanded: boolean
   subtitle?: string | null
   children: React.ReactNode
 }
 
-export function CollapsedFees({
+export function CollapsibleFees({
   title,
   children,
   subtitle: injectedSubtitle = null,
   initialIsExpanded = false,
-}: CollapsedFeesProps) {
+}: CollapsibleFeesProps) {
   const [isExpanded, setIsExpanded] = React.useState(initialIsExpanded)
 
   function getSubtitle() {

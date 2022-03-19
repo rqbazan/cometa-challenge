@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { styled } from '@mui/material/styles'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { CollapsedFees } from './index'
+import { CollapsibleFees } from './index'
 
 export default {
-  title: 'components/CollapsedFees',
-  component: CollapsedFees,
-} as ComponentMeta<typeof CollapsedFees>
+  title: 'components/CollapsibleFees',
+  component: CollapsibleFees,
+} as ComponentMeta<typeof CollapsibleFees>
 
 const ListItem = styled('div')`
   height: 40px;
@@ -14,12 +14,12 @@ const ListItem = styled('div')`
   background: #efefef;
 `
 
-const Template: ComponentStory<typeof CollapsedFees> = args => (
-  <CollapsedFees {...args}>
+const Template: ComponentStory<typeof CollapsibleFees> = args => (
+  <CollapsibleFees {...args}>
     <ListItem />
     <ListItem />
     <ListItem />
-  </CollapsedFees>
+  </CollapsibleFees>
 )
 
 export const DefaultView = Template.bind({})
