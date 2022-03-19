@@ -1,6 +1,9 @@
 import { createTheme } from '@mui/material/styles'
 
 export const theme = createTheme({
+  typography: {
+    fontSize: 12,
+  },
   palette: {
     primary: {
       main: '#fff',
@@ -22,6 +25,11 @@ export const theme = createTheme({
         root: {
           borderRadius: 999,
         },
+      },
+    },
+    MuiCheckbox: {
+      defaultProps: {
+        color: 'secondary',
       },
     },
   },

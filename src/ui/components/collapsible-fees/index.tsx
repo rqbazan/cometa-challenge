@@ -34,6 +34,7 @@ export function CollapsibleFees({
   return (
     <Card>
       <CardHeader
+        disableTypography
         action={
           <ExpandMoreIconButton
             isExpanded={isExpanded}

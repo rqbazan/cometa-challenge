@@ -4,7 +4,7 @@ import { AppProvider } from '~/provider'
 export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS,
-    defaultViewport: 'iphone5',
+    defaultViewport: 'iphone6',
   },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
