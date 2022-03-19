@@ -12,4 +12,17 @@ export const theme = createTheme({
       default: '#f6f6f6',
     },
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        color: 'secondary',
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: 999,
+        },
+      },
+    },
+  },
 })
