@@ -9,6 +9,9 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
+  features: {
+    emotionAlias: false,
+  },
   framework: '@storybook/react',
   webpackFinal: (config, { configType }) => {
     config.resolve.plugins = [...config.resolve.plugins, new TsconfigPathsPlugin()]
