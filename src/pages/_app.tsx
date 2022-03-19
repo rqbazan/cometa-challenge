@@ -1,12 +1,21 @@
+import type { EmotionCache } from '@emotion/react'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { AppProvider } from '~/provider'
 
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-
-function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+interface CometaAppProps extends AppProps {
+  emotionCache?: EmotionCache
 }
 
-export default App
+function CometaApp({ Component, pageProps, emotionCache }: CometaAppProps) {
+  return (
+    <AppProvider emotionCache={emotionCache}>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <Component {...pageProps} />
+    </AppProvider>
+  )
+}
+
+export default CometaApp
