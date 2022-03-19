@@ -1,8 +1,8 @@
 import Button from '@mui/material/Button'
-import type { NextPage } from 'next'
+import { getMainLayout } from '~/ui/layout'
 
-const Home: NextPage = () => {
+export default function HomePage() {
   return <Button variant="contained">Click me</Button>
 }
 
-export default Home
+HomePage.getLayout = getMainLayout

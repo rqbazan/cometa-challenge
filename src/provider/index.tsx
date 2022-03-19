@@ -6,7 +6,7 @@ import { theme } from '~/ui/theme'
 
 interface AppProviderProps {
   emotionCache?: EmotionCache
-  children: React.ReactChild | React.ReactChild[]
+  children: React.ReactNode
 }
 
 const clientSideEmotionCache = createEmotionCache()
