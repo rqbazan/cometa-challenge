@@ -5,26 +5,23 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 interface MainLayoutProps {
+  title: string
   children: React.ReactNode
 }
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar)
 
-export function MainLayout({ children }: MainLayoutProps) {
+export function MainLayout({ children, title }: MainLayoutProps) {
   return (
     <>
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: 'center' }}>
-          <Avatar sx={{ marginRight: 1 }}>B</Avatar>
-          <Typography variant="h6">Colegio Brillamont</Typography>
+          <Avatar sx={{ marginRight: 1 }}>{title[0]}</Avatar>
+          <Typography variant="h6">{title}</Typography>
         </Toolbar>
       </AppBar>
       <Offset />
       {children}
     </>
   )
-}
-
-export function getMainLayout(node: React.ReactNode) {
-  return <MainLayout>{node}</MainLayout>
 }

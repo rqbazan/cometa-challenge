@@ -28,7 +28,7 @@ import {
   StudentSummary,
   TotalSummary,
 } from '~/ui/components'
-import { getMainLayout } from '~/ui/layout'
+import { MainLayout } from '~/ui/layout'
 import { isError, isLoading } from '~/utils'
 
 interface FormValues {
@@ -219,10 +219,12 @@ export default function StudentOrdersPage() {
     })
   }
 
+  // Actually don't required because of SSR
   if (isLoading(studentInfoQuery, studentOrdersQuery)) {
     return null
   }
 
+  // Actually don't required because of SSR
   if (isError(studentInfoQuery, studentOrdersQuery)) {
     return null
   }
@@ -231,18 +233,20 @@ export default function StudentOrdersPage() {
   const { paidOrders, outstandingOrder, dueOrders } = studentOrdersQuery
 
   return (
-    <MoneyProvider currencyCode={currencyCode}>
-      <Head>
-        <title>Ordenes de Pago</title>
-      </Head>
-      <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
-        <SummaryCard student={student!} />
-        <PaidCollapsibleFees dataSource={paidOrders} />
-        <OutstandingCollapsibleFees form={form} dataSource={outstandingOrder} />
-        <DueCollapsibleFees form={form} dataSource={dueOrders} />
-        <SubmitButton form={form} />
-      </StyledForm>
-    </MoneyProvider>
+    <MainLayout title={student!.school.name}>
+      <MoneyProvider currencyCode={currencyCode}>
+        <Head>
+          <title>Ordenes de Pago</title>
+        </Head>
+        <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
+          <SummaryCard student={student!} />
+          <PaidCollapsibleFees dataSource={paidOrders} />
+          <OutstandingCollapsibleFees form={form} dataSource={outstandingOrder} />
+          <DueCollapsibleFees form={form} dataSource={dueOrders} />
+          <SubmitButton form={form} />
+        </StyledForm>
+      </MoneyProvider>
+    </MainLayout>
   )
 }
 
@@ -266,5 +270,3 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     },
   }
 }
-
-StudentOrdersPage.getLayout = getMainLayout
