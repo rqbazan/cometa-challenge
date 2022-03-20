@@ -17,7 +17,7 @@ export interface School {
   zip_code: string
 }
 
-export interface RootObject {
+export interface StudentData {
   id: string
   first_name: string
   last_name: string
