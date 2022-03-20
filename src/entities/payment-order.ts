@@ -25,28 +25,8 @@ export class PaymentOrder {
     return this.data.id
   }
 
-  get concept() {
-    return this.data.concept
-  }
-
   get name() {
     return this.data.name
-  }
-
-  get status() {
-    return this.data.status
-  }
-
-  get isPaid() {
-    return this.data.status === 'PAID'
-  }
-
-  get isDue() {
-    return this.data.status === 'DUE'
-  }
-
-  get isOutstanding() {
-    return this.data.status === 'OUTSTANDING'
   }
 
   get hasInterest() {
