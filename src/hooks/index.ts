@@ -1,4 +1,3 @@
-export * from './use-http-client'
 export * from './use-money'
 export * from './use-student-info'
 export * from './use-student-orders'

@@ -1,14 +1,15 @@
 import * as React from 'react'
-import { DevTool } from '@hookform/devtools'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Fade from '@mui/material/Fade'
 import { styled } from '@mui/material/styles'
+import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import { useForm, UseFormReturn } from 'react-hook-form'
 import { PaymentOrder, PaymentOrderData } from '~/entities'
 import { CurrencyCode, Money } from '~/entities/money'
 import { StudentData } from '~/entities/student'
+import { KeysFormatter } from '~/formatters'
 import {
   MoneyProvider,
   useMoney,
@@ -16,6 +17,7 @@ import {
   useStudentInfo,
   useStudentOrders,
 } from '~/hooks'
+import { httpClient } from '~/lib/http-client'
 import {
   CollapsibleFees,
   DuePaymentOrderCard,
@@ -236,13 +238,29 @@ export default function StudentOrdersPage() {
         <DueCollapsibleFees form={form} dataSource={dueOrders} />
         <SubmitButton form={form} />
       </StyledForm>
-      <DevTool placement="top-left" control={form.control} />
     </MoneyProvider>
   )
 }
 
-export async function getServerSideProps() {
-  return { props: {} }
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+  const studentId = query.studentId as string
+
+  const studentInfoKey = KeysFormatter.getStudentInfo(studentId)
+  const studentOrdersKey = KeysFormatter.getStudentOrders(studentId)
+
+  const [studentInfo, studentOrders] = await Promise.all([
+    httpClient.fetch(studentInfoKey),
+    httpClient.fetch(studentOrdersKey),
+  ])
+
+  return {
+    props: {
+      swrFallback: {
+        [studentInfoKey]: studentInfo,
+        [studentOrdersKey]: studentOrders,
+      },
+    },
+  }
 }
 
 StudentOrdersPage.getLayout = getMainLayout

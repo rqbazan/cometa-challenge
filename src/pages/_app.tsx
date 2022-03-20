@@ -1,7 +1,10 @@
+import * as React from 'react'
 import type { EmotionCache } from '@emotion/react'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import env from '~/env'
+import { httpClient } from '~/lib/http-client'
 import { AppProvider } from '~/provider'
 
 interface CometaAppProps extends AppProps {
@@ -11,11 +14,18 @@ interface CometaAppProps extends AppProps {
   }
 }
 
+httpClient.init({
+  baseURL: env.API_BASE_URL,
+  headers: {
+    hash: env.API_HASH_HEADER,
+  },
+})
+
 function CometaApp({ Component, pageProps, emotionCache }: CometaAppProps) {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <AppProvider emotionCache={emotionCache}>
+    <AppProvider emotionCache={emotionCache} swrFallback={pageProps?.swrFallback}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>

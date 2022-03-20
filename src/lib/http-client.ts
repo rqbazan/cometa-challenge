@@ -6,14 +6,22 @@ export enum CommonHeader {
 }
 
 export class OhMyHttpClient {
-  private options: FetchOptions<'json'>
+  private static instance: OhMyHttpClient
 
-  private constructor(options: FetchOptions<'json'> = {}) {
-    this.options = options
+  private constructor(private options: FetchOptions<'json'> = {}) {}
+
+  static getInstance() {
+    if (OhMyHttpClient.instance) {
+      return OhMyHttpClient.instance
+    }
+
+    OhMyHttpClient.instance = new OhMyHttpClient()
+
+    return OhMyHttpClient.instance
   }
 
-  static create(options: FetchOptions<'json'>) {
-    return new OhMyHttpClient(options)
+  init(options: FetchOptions<'json'> = {}) {
+    this.options = options
   }
 
   setHeader(name: string, value: string) {
@@ -46,3 +54,5 @@ export class OhMyHttpClient {
     return await $fetch<TData>(request, opts)
   }
 }
+
+export const httpClient = OhMyHttpClient.getInstance()
