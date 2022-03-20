@@ -1,8 +1,11 @@
-import { PaymentOrder } from '~/entities'
+import { PaymentOrder, PaymentOrderData } from '~/entities'
 import { CollapsibleFees, PaidPaymentOrderCard } from '~/ui/components'
-import { CustomCollapsibleFeesProps } from '../types'
 
-export function PaidCollapsibleFees({ dataSource }: Omit<CustomCollapsibleFeesProps, 'form'>) {
+interface PaidCollapsibleFeesProps {
+  dataSource: PaymentOrderData[]
+}
+
+export function PaidCollapsibleFees({ dataSource }: PaidCollapsibleFeesProps) {
   return (
     <CollapsibleFees title="Cuotas pagadas">
       {dataSource.map(order => (

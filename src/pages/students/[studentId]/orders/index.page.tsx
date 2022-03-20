@@ -1,20 +1,21 @@
 import * as React from 'react'
+import Fade from '@mui/material/Fade'
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { PaymentOrderData } from '~/entities'
-import { KeysFormatter } from '~/formatters'
-import { MoneyProvider, useStudentInfo, useStudentOrders } from '~/hooks'
+import { KeysFormatter, MoneyFormatter } from '~/formatters'
+import { MoneyProvider, useMoney, useStudentInfo, useStudentOrders } from '~/hooks'
 import { httpClient } from '~/lib/http-client'
+import { FloatingButton } from '~/ui/components'
 import { MainLayout } from '~/ui/layouts'
-import { fill, isError, isLoading } from '~/utils'
+import { createIndexedObj, isError, isLoading, reduceIdentifiables } from '~/utils'
 import {
   DueCollapsibleFees,
   OutstandingCollapsibleFees,
   PaidCollapsibleFees,
   StyledForm,
-  SubmitButton,
   SummaryCard,
 } from './components'
 import { useCurrencyCode } from './hooks'
@@ -25,49 +26,56 @@ interface StudentOrdersFormProps {
   studentOrdersQuery: ReturnType<typeof useStudentOrders>
 }
 
-function useDefaultFormValues(
-  outstandingOrders: PaymentOrderData[],
-  dueOrders: PaymentOrderData[]
-): Partial<FormValues> {
+function useDefaultFormValues(orders: PaymentOrderData[]) {
   return React.useMemo(
     () => ({
-      outstandingOrderIds: fill(outstandingOrders, null),
-      dueOrderIds: fill(dueOrders, null),
+      orderIds: reduceIdentifiables(orders, () => ({ selected: false })),
     }),
-    [outstandingOrders, dueOrders]
+    [orders]
   )
+}
+
+function useIndexedObj(orders: PaymentOrderData[]) {
+  return React.useMemo(() => createIndexedObj(orders), [orders])
 }
 
 function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrdersFormProps) {
   const { student } = studentInfoQuery
 
-  const { paidOrders, outstandingOrders, dueOrders } = studentOrdersQuery
+  const { paidOrders, outstandingOrders, dueOrders, payableOrders } = studentOrdersQuery
 
-  const currencyCode = useCurrencyCode(studentOrdersQuery.orders)
+  const defaultFormValues = useDefaultFormValues(payableOrders)
 
-  const defaultFormValues = useDefaultFormValues(outstandingOrders, dueOrders)
+  const indexedObj = useIndexedObj(payableOrders)
+
+  const totalMoney = useMoney()
+
+  const totalIsNotZero = totalMoney.amount > 0
 
   const form = useForm<FormValues>({
     defaultValues: defaultFormValues,
   })
 
   function onSubmit(formValues: FormValues) {
-    console.log({
-      outstandingOrderIds: formValues.outstandingOrderIds.filter(Boolean),
-      dueOrderIds: formValues.dueOrderIds.filter(Boolean),
-    })
+    console.log({ orderIds: formValues.orderIds })
   }
 
   return (
-    <MoneyProvider currencyCode={currencyCode}>
-      <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
-        <SummaryCard student={student!} />
-        <PaidCollapsibleFees dataSource={paidOrders} />
-        <OutstandingCollapsibleFees form={form} dataSource={outstandingOrders} />
-        <DueCollapsibleFees form={form} dataSource={dueOrders} />
-        <SubmitButton form={form} />
-      </StyledForm>
-    </MoneyProvider>
+    <StyledForm onSubmit={form.handleSubmit(onSubmit)} extraPaddingBottom={totalIsNotZero}>
+      <SummaryCard student={student!} />
+      <PaidCollapsibleFees dataSource={paidOrders} />
+      <OutstandingCollapsibleFees
+        form={form}
+        dataSource={outstandingOrders}
+        indexedObj={indexedObj}
+      />
+      <DueCollapsibleFees form={form} dataSource={dueOrders} indexedObj={indexedObj} />
+      <Fade in={totalIsNotZero}>
+        <FloatingButton type="submit">{`Ir a pagar ${MoneyFormatter.toString(
+          totalMoney
+        )}`}</FloatingButton>
+      </Fade>
+    </StyledForm>
   )
 }
 
@@ -79,6 +87,8 @@ export default function StudentOrdersPage() {
   const studentInfoQuery = useStudentInfo(studentId)
 
   const studentOrdersQuery = useStudentOrders(studentId)
+
+  const currencyCode = useCurrencyCode(studentOrdersQuery.orders)
 
   // Actually don't required because of SSR
   if (isLoading(studentInfoQuery, studentOrdersQuery)) {
@@ -95,10 +105,12 @@ export default function StudentOrdersPage() {
       <Head>
         <title>Ordenes de Pago</title>
       </Head>
-      <StudentOrdersForm
-        studentInfoQuery={studentInfoQuery}
-        studentOrdersQuery={studentOrdersQuery}
-      />
+      <MoneyProvider currencyCode={currencyCode}>
+        <StudentOrdersForm
+          studentInfoQuery={studentInfoQuery}
+          studentOrdersQuery={studentOrdersQuery}
+        />
+      </MoneyProvider>
     </MainLayout>
   )
 }

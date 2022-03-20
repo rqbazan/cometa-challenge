@@ -15,14 +15,27 @@ function groupOrdersByStatus(orders?: PaymentOrderData[]) {
 }
 
 export function useStudentOrders(studentId: string) {
-  const { data, error } = useSWR<PaymentOrderData[]>(KeysFormatter.getStudentOrders(studentId))
+  const { data: orders, error } = useSWR<PaymentOrderData[]>(
+    KeysFormatter.getStudentOrders(studentId)
+  )
 
-  const groupedOrders = React.useMemo(() => groupOrdersByStatus(data), [data])
+  const memoizedOrders = React.useMemo(() => {
+    const groupedOrders = groupOrdersByStatus(orders)
+
+    return {
+      ...groupedOrders,
+      // prettier-ignore
+      payableOrders: [
+        ...groupedOrders.outstandingOrders,
+        ...groupedOrders.dueOrders
+      ],
+    }
+  }, [orders])
 
   return {
-    ...groupedOrders,
-    orders: data,
-    isLoading: !error && !data,
+    ...memoizedOrders,
+    orders: orders,
+    isLoading: !error && !orders,
     isError: error,
   }
 }

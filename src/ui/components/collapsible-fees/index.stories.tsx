@@ -27,18 +27,3 @@ export const DefaultView = Template.bind({})
 DefaultView.args = {
   title: 'Cuotas pagadas',
 }
-
-export const WithSubtitle = Template.bind({})
-
-WithSubtitle.args = {
-  title: 'Cuotas pagadas',
-  subtitle: 'Puedes seleccionar mas de uno',
-  initialIsExpanded: true,
-}
-
-export const Expanded = Template.bind({})
-
-Expanded.args = {
-  ...DefaultView.args,
-  initialIsExpanded: true,
-}

@@ -9,7 +9,11 @@ interface MoneyProviderProps {
 }
 
 function useMoneyContextValue({ currencyCode }: MoneyProviderProps) {
-  const [value, setValue] = React.useState<Money>(() => new Money('0', currencyCode))
+  const [value, setValue] = React.useState(() => new Money('0', currencyCode))
+
+  React.useEffect(() => {
+    setValue(new Money('0', currencyCode))
+  }, [currencyCode])
 
   const operations = React.useMemo(() => {
     return {

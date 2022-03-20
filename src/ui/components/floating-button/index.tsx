@@ -6,4 +6,5 @@ export const FloatingButton = styled(MuiButton)(props => ({
   bottom: props.theme.spacing(2),
   right: '50%',
   transform: 'translateX(50%)',
+  whiteSpace: 'nowrap',
 }))
