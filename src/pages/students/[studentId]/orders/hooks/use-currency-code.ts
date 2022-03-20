@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { CurrencyCode, PaymentOrderData } from '~/entities'
 
-export // FIXME: the currencyCode shouldn't depend on orders array itself
-function useCurrencyCode(orders?: PaymentOrderData[]) {
+// FIXME: the currencyCode shouldn't depend on orders array itself
+export function useCurrencyCode(orders?: PaymentOrderData[]) {
   const defaultCurrencyCode: CurrencyCode = 'USD'
 
   return React.useMemo<CurrencyCode>(() => {
