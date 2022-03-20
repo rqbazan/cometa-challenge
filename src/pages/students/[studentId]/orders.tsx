@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import Fade from '@mui/material/Fade'
 import { styled } from '@mui/material/styles'
 import { GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useForm, UseFormReturn } from 'react-hook-form'
 import { PaymentOrder, PaymentOrderData } from '~/entities'
@@ -231,6 +232,9 @@ export default function StudentOrdersPage() {
 
   return (
     <MoneyProvider currencyCode={currencyCode}>
+      <Head>
+        <title>Ordenes de Pago</title>
+      </Head>
       <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
         <SummaryCard student={student!} />
         <PaidCollapsibleFees dataSource={paidOrders} />
