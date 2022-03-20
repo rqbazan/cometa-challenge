@@ -57,7 +57,10 @@ export function DueCardAction({ paymentOrder, checkboxProps }: CardActionProps) 
   if (paymentOrder.hasDiscount) {
     const dPrice = MoneyFormatter.toDinero(paymentOrder.price)
     const dDiscount = MoneyFormatter.toDinero(paymentOrder.discount)
-    price = MoneyFormatter.fromDinero(subtract(dPrice, dDiscount))
+
+    if (dPrice && dDiscount) {
+      price = MoneyFormatter.fromDinero(subtract(dPrice, dDiscount))
+    }
   }
 
   return (

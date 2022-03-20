@@ -8,12 +8,16 @@ export default {
   component: MainLayout,
 } as ComponentMeta<typeof MainLayout>
 
-export const DefaultView: ComponentStory<typeof MainLayout> = () => {
+export const DefaultView: ComponentStory<typeof MainLayout> = args => {
   return (
-    <MainLayout>
+    <MainLayout {...args}>
       {Array.from({ length: 100 }).map((_, index) => (
         <Typography key={index}>Number: {index + 1}</Typography>
       ))}
     </MainLayout>
   )
+}
+
+DefaultView.args = {
+  title: 'Colegio Brillamont',
 }
