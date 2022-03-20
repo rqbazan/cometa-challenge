@@ -8,7 +8,9 @@ export enum CommonHeader {
 export class OhMyHttpClient {
   private static instance: OhMyHttpClient
 
-  private constructor(private options: FetchOptions<'json'> = {}) {}
+  constructor(private options: FetchOptions<'json'> = {}) {
+    this.options = options
+  }
 
   static getInstance() {
     if (OhMyHttpClient.instance) {

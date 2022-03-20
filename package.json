@@ -33,6 +33,7 @@
     "lodash.merge": "^4.6.2",
     "next": "12.1.0",
     "ohmyfetch": "^0.4.15",
+    "path-to-regexp": "^6.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.28.0",

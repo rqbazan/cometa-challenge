@@ -16,9 +16,6 @@ interface CometaAppProps extends AppProps {
 
 httpClient.init({
   baseURL: env.API_BASE_URL,
-  headers: {
-    hash: env.API_HASH_HEADER,
-  },
 })
 
 function CometaApp({ Component, pageProps, emotionCache }: CometaAppProps) {
