@@ -9,7 +9,7 @@ export const theme = createTheme({
       main: '#fff',
     },
     secondary: {
-      main: '#2D2D2D',
+      main: '#2d2d2d',
     },
     background: {
       default: '#f6f6f6',
@@ -20,6 +20,7 @@ export const theme = createTheme({
       defaultProps: {
         variant: 'contained',
         color: 'secondary',
+        size: 'large',
       },
       styleOverrides: {
         root: {
