@@ -72,7 +72,7 @@ function useCheckboxOnChange() {
   }
 }
 
-// FIXME: the currency code shouldn't depend on orders
+// FIXME: the currencyCode shouldn't depend on orders array itself
 function useCurrencyCode(orders?: PaymentOrderData[]) {
   const defaultCurrencyCode: CurrencyCode = 'USD'
 
