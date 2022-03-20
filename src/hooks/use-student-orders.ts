@@ -9,8 +9,8 @@ function groupOrdersByStatus(orders?: PaymentOrderData[]) {
 
   return {
     paidOrders: groups?.PAID ?? [],
-    dueOrders: groups?.DUE ?? [],
     outstandingOrders: groups?.OUTSTANDING ?? [],
+    dueOrders: groups?.DUE ?? [],
   }
 }
 

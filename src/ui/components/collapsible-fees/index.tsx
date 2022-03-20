@@ -21,7 +21,13 @@ export function CollapsibleFees({
 }: CollapsibleFeesProps) {
   const [isExpanded, setIsExpanded] = React.useState(initialIsExpanded)
 
+  const isExpandable = React.Children.count(children) > 0
+
   function getSubtitle() {
+    if (!isExpandable) {
+      return 'No tienes información para mostrar'
+    }
+
     if (!isExpanded) {
       return 'Dale click para expandir'
     }
@@ -36,14 +42,16 @@ export function CollapsibleFees({
       <CardHeader
         disableTypography
         action={
-          <ExpandMoreIconButton
-            isExpanded={isExpanded}
-            aria-label="show more"
-            aria-expanded={isExpanded}
-            onClick={() => setIsExpanded(v => !v)}
-          >
-            <ExpandMoreIcon />
-          </ExpandMoreIconButton>
+          isExpandable && (
+            <ExpandMoreIconButton
+              isExpanded={isExpanded}
+              aria-label="show more"
+              aria-expanded={isExpanded}
+              onClick={() => setIsExpanded(v => !v)}
+            >
+              <ExpandMoreIcon />
+            </ExpandMoreIconButton>
+          )
         }
         title={<Typography variant="subtitle2">{title}</Typography>}
         subheader={

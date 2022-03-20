@@ -11,11 +11,18 @@ export function DueCollapsibleFees({ dataSource, form }: CustomCollapsibleFeesPr
 
   const allOutstandingOrdersSelected = outstandingOrderIds.every(Boolean)
 
+  function getSubtitle() {
+    const someDueOrderIsSelected = dueOrderIds.some(Boolean)
+
+    if (someDueOrderIsSelected || !allOutstandingOrdersSelected) {
+      return null
+    }
+
+    return selectionDisclaimerText
+  }
+
   return (
-    <CollapsibleFees
-      title="Cuotas futuras"
-      subtitle={allOutstandingOrdersSelected ? selectionDisclaimerText : null}
-    >
+    <CollapsibleFees title="Cuotas futuras" subtitle={getSubtitle()}>
       {dataSource.map((order, index) => {
         const isDisabled = index === 0 ? !allOutstandingOrdersSelected : !dueOrderIds[index - 1]
         const paymentOrder = new PaymentOrder(order)
