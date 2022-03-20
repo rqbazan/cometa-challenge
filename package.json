@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
+    "build:sb": "build-storybook -o ./public/storybook",
+    "vercel-build": "run-s build:sb build",
     "prettier": "prettier --ignore-path .gitignore \"**/*.{js,ts,tsx}\"",
     "fix:format": "yarn prettier --write",
     "fix:lint": "next lint --fix",
