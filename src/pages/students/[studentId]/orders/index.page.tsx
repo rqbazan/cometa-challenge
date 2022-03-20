@@ -3,11 +3,12 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { PaymentOrderData } from '~/entities'
 import { KeysFormatter } from '~/formatters'
 import { MoneyProvider, useStudentInfo, useStudentOrders } from '~/hooks'
 import { httpClient } from '~/lib/http-client'
 import { MainLayout } from '~/ui/layouts'
-import { isError, isLoading } from '~/utils'
+import { fill, isError, isLoading } from '~/utils'
 import {
   DueCollapsibleFees,
   OutstandingCollapsibleFees,
@@ -19,21 +20,32 @@ import {
 import { useCurrencyCode } from './hooks'
 import { FormValues } from './types'
 
-const defaultFormValues: Partial<FormValues> = {
-  outstandingOrderIds: [],
-  dueOrderIds: [],
+interface StudentOrdersFormProps {
+  studentInfoQuery: ReturnType<typeof useStudentInfo>
+  studentOrdersQuery: ReturnType<typeof useStudentOrders>
 }
 
-export default function StudentOrdersPage() {
-  const router = useRouter()
+function useDefaultFormValues(
+  outstandingOrders: PaymentOrderData[],
+  dueOrders: PaymentOrderData[]
+): Partial<FormValues> {
+  return React.useMemo(
+    () => ({
+      outstandingOrderIds: fill(outstandingOrders, null),
+      dueOrderIds: fill(dueOrders, null),
+    }),
+    [outstandingOrders, dueOrders]
+  )
+}
 
-  const studentId = router.query.studentId as string
+function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrdersFormProps) {
+  const { student } = studentInfoQuery
 
-  const studentInfoQuery = useStudentInfo(studentId)
-
-  const studentOrdersQuery = useStudentOrders(studentId)
+  const { paidOrders, outstandingOrders, dueOrders } = studentOrdersQuery
 
   const currencyCode = useCurrencyCode(studentOrdersQuery.orders)
+
+  const defaultFormValues = useDefaultFormValues(outstandingOrders, dueOrders)
 
   const form = useForm<FormValues>({
     defaultValues: defaultFormValues,
@@ -46,6 +58,28 @@ export default function StudentOrdersPage() {
     })
   }
 
+  return (
+    <MoneyProvider currencyCode={currencyCode}>
+      <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
+        <SummaryCard student={student!} />
+        <PaidCollapsibleFees dataSource={paidOrders} />
+        <OutstandingCollapsibleFees form={form} dataSource={outstandingOrders} />
+        <DueCollapsibleFees form={form} dataSource={dueOrders} />
+        <SubmitButton form={form} />
+      </StyledForm>
+    </MoneyProvider>
+  )
+}
+
+export default function StudentOrdersPage() {
+  const router = useRouter()
+
+  const studentId = router.query.studentId as string
+
+  const studentInfoQuery = useStudentInfo(studentId)
+
+  const studentOrdersQuery = useStudentOrders(studentId)
+
   // Actually don't required because of SSR
   if (isLoading(studentInfoQuery, studentOrdersQuery)) {
     return null
@@ -56,23 +90,15 @@ export default function StudentOrdersPage() {
     return null
   }
 
-  const { student } = studentInfoQuery
-  const { paidOrders, outstandingOrder, dueOrders } = studentOrdersQuery
-
   return (
-    <MainLayout title={student!.school.name}>
-      <MoneyProvider currencyCode={currencyCode}>
-        <Head>
-          <title>Ordenes de Pago</title>
-        </Head>
-        <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
-          <SummaryCard student={student!} />
-          <PaidCollapsibleFees dataSource={paidOrders} />
-          <OutstandingCollapsibleFees form={form} dataSource={outstandingOrder} />
-          <DueCollapsibleFees form={form} dataSource={dueOrders} />
-          <SubmitButton form={form} />
-        </StyledForm>
-      </MoneyProvider>
+    <MainLayout title={studentInfoQuery.student!.school.name}>
+      <Head>
+        <title>Ordenes de Pago</title>
+      </Head>
+      <StudentOrdersForm
+        studentInfoQuery={studentInfoQuery}
+        studentOrdersQuery={studentOrdersQuery}
+      />
     </MainLayout>
   )
 }
