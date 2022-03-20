@@ -9,7 +9,7 @@ interface SummaryCardProps {
 }
 
 export function SummaryCard({ student }: SummaryCardProps) {
-  const total = useMoney()
+  const totalMoney = useMoney()
 
   return (
     <Card>
@@ -20,7 +20,7 @@ export function SummaryCard({ student }: SummaryCardProps) {
           cohort={student.cohort}
           gutterBottom
         />
-        <TotalSummary value={total} />
+        <TotalSummary value={totalMoney} />
       </CardContent>
     </Card>
   )
