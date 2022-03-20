@@ -25,7 +25,7 @@ export function CollapsibleFees({ title, children }: CollapsibleFeesProps) {
       return 'Dale click para expandir'
     }
 
-    return 'Puedes seleccionar más de uno'
+    return 'Podrás seleccionar más de una'
   }
 
   const subtitle = getSubtitle()
