@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { PaymentOrderData } from '~/entities'
 import { KeysFormatter, MoneyFormatter } from '~/formatters'
-import { MoneyProvider, useMoney, useStudentInfo, useStudentOrders } from '~/hooks'
+import { MoneyProvider, useScopedMoney, useStudentInfo, useStudentOrders } from '~/hooks'
 import { httpClient } from '~/lib/http-client'
 import { FloatingButton } from '~/ui/components'
 import { MainLayout } from '~/ui/layouts'
@@ -48,7 +48,7 @@ function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrde
 
   const indexedObj = useIndexedObj(payableOrders)
 
-  const totalMoney = useMoney()
+  const totalMoney = useScopedMoney()
 
   const totalIsNotZero = totalMoney.amount > 0
 

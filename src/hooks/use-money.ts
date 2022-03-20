@@ -47,7 +47,7 @@ function useMoneyContextValue({ currencyCode }: MoneyProviderProps) {
   return { value, operations }
 }
 
-export const [MoneyProvider, useMoney, useMoneyOperations] = constate(
+export const [MoneyProvider, useScopedMoney, useScopedMoneyOps] = constate(
   useMoneyContextValue,
   v => v.value,
   v => v.operations

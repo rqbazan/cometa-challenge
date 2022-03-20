@@ -1,7 +1,7 @@
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import { StudentData } from '~/entities/student'
-import { useMoney } from '~/hooks'
+import { useScopedMoney } from '~/hooks'
 import { StudentSummary, TotalSummary } from '~/ui/components'
 
 interface SummaryCardProps {
@@ -9,7 +9,7 @@ interface SummaryCardProps {
 }
 
 export function SummaryCard({ student }: SummaryCardProps) {
-  const totalMoney = useMoney()
+  const totalMoney = useScopedMoney()
 
   return (
     <Card>
