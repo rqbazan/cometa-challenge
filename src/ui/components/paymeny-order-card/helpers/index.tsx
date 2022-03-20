@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { subtract } from 'dinero.js'
 import { PaymentOrder } from '~/entities'
-import { Money } from '~/entities/money'
+import { Money } from '~/entities'
 import { MoneyFormatter } from '~/formatters'
 
 interface CardActionProps {

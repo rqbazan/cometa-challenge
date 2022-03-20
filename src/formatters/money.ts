@@ -1,6 +1,6 @@
 import { MXN, PEN, USD } from '@dinero.js/currencies'
 import { Currency, Dinero, dinero, toFormat, toSnapshot, Transformer } from 'dinero.js'
-import { CurrencyCode, Money, TAmount } from '~/entities/money'
+import { CurrencyCode, Money, TAmount } from '~/entities'
 
 const currencies: Record<CurrencyCode, Currency<TAmount>> = {
   MXN,

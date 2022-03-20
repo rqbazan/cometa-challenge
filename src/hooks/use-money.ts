@@ -1,7 +1,7 @@
 import * as React from 'react'
 import constate from 'constate'
 import { add, subtract } from 'dinero.js'
-import { CurrencyCode, Money } from '~/entities/money'
+import { CurrencyCode, Money } from '~/entities'
 import { MoneyFormatter } from '~/formatters'
 
 interface MoneyProviderProps {

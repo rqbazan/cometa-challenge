@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Money } from '~/entities/money'
+import { Money } from '~/entities'
 import { MoneyFormatter } from '~/formatters'
 
 interface TotalSummaryProps {

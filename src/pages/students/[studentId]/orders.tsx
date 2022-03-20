@@ -7,7 +7,7 @@ import { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import { useForm, UseFormReturn } from 'react-hook-form'
 import { PaymentOrder, PaymentOrderData } from '~/entities'
-import { CurrencyCode, Money } from '~/entities/money'
+import { CurrencyCode, Money } from '~/entities'
 import { StudentData } from '~/entities/student'
 import { KeysFormatter } from '~/formatters'
 import {

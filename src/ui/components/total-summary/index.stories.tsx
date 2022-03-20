@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Money } from '~/entities/money'
+import { Money } from '~/entities'
 import { TotalSummary } from './index'
 
 export default {
