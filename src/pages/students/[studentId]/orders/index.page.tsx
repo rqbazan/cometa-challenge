@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { KeysFormatter } from '~/formatters'
 import { MoneyProvider, useStudentInfo, useStudentOrders } from '~/hooks'
 import { httpClient } from '~/lib/http-client'
-import { MainLayout } from '~/ui/layout'
+import { MainLayout } from '~/ui/layouts'
 import { isError, isLoading } from '~/utils'
 import {
   DueCollapsibleFees,
