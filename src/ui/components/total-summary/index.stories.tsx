@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Money } from '~/entities/money'
 import { TotalSummary } from './index'
 
 export default {
@@ -14,13 +15,11 @@ const Template: ComponentStory<typeof TotalSummary> = args => {
 export const DefaultView = Template.bind({})
 
 DefaultView.args = {
-  priceAmount: '1000',
-  priceCurrency: '$',
+  value: new Money('1000', 'MXN'),
 }
 
 export const ZeroPrice = Template.bind({})
 
 ZeroPrice.args = {
-  priceAmount: '0',
-  priceCurrency: '$',
+  value: new Money('0', 'MXN'),
 }

@@ -1,19 +1,17 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { formatPriceAmount } from '~/ui/helpers'
+import { Money } from '~/entities/money'
+import { MoneyFormatter } from '~/formatters'
 
 interface TotalSummaryProps {
-  priceAmount: string
-  priceCurrency: string
+  value: Money
 }
 
-export function TotalSummary({ priceAmount, priceCurrency }: TotalSummaryProps) {
+export function TotalSummary({ value }: TotalSummaryProps) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Typography variant="subtitle1">Total a Pagar</Typography>
-      <Typography variant="subtitle1">
-        {priceCurrency} {formatPriceAmount(priceAmount)}
-      </Typography>
+      <Typography variant="subtitle1">{MoneyFormatter.toString(value)}</Typography>
     </Box>
   )
 }

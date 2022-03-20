@@ -14,6 +14,14 @@ module.exports = {
   },
   framework: '@storybook/react',
   webpackFinal: (config, { configType }) => {
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        include: /node_modules/,
+        test: /\.mjs$/,
+        type: 'javascript/auto',
+      },
+    ]
     config.resolve.plugins = [...config.resolve.plugins, new TsconfigPathsPlugin()]
 
     config.output.publicPath = getPublicPath(configType)

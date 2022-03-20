@@ -15,17 +15,22 @@ const symbols: Record<CurrencyCode, string> = {
 }
 
 const transformer: Transformer<TAmount> = ({ amount, currency }) => {
-  return `${symbols[currency.code as CurrencyCode]} ${amount.toFixed(2)}`
+  const isZero = Number.isNaN(amount) || amount === 0
+  const symbol = symbols[currency.code as CurrencyCode]
+
+  return `${symbol} ${isZero ? '---' : amount.toFixed(2)}`
 }
 
 export class MoneyFormatter {
   static toString(money: Money) {
     const dInstance = MoneyFormatter.toDinero(money)
+
     return toFormat(dInstance, transformer)
   }
 
   static toDinero(money: Money) {
     const currency = currencies[money.currencyCode]
+
     return dinero({ currency, amount: money.amount, scale: 0 })
   }
 

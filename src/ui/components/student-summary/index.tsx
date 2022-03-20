@@ -5,11 +5,18 @@ interface StudentSummaryProps {
   firstName: string
   lastName: string
   cohort: string
+  gutterBottom?: boolean
 }
 
-export function StudentSummary({ firstName, lastName, cohort }: StudentSummaryProps) {
+export function StudentSummary({ firstName, lastName, cohort, gutterBottom }: StudentSummaryProps) {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: gutterBottom ? 1 : 0,
+      }}
+    >
       <Typography variant="caption">
         {firstName} {lastName}
       </Typography>

@@ -8,7 +8,7 @@ import { ExpandMoreIconButton } from '../expand-more-icon-button'
 
 interface CollapsibleFeesProps {
   title: string
-  initialIsExpanded: boolean
+  initialIsExpanded?: boolean
   subtitle?: string | null
   children: React.ReactNode
 }
