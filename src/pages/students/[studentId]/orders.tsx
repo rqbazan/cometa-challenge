@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles'
 import { useRouter } from 'next/router'
 import { useForm, UseFormReturn } from 'react-hook-form'
 import { PaymentOrder, PaymentOrderData } from '~/entities'
-import { Money } from '~/entities/money'
+import { CurrencyCode, Money } from '~/entities/money'
 import { StudentData } from '~/entities/student'
 import {
   MoneyProvider,
@@ -70,6 +70,21 @@ function useCheckboxOnChange() {
       operations.substract(value)
     }
   }
+}
+
+// FIXME: the currency code shouldn't depend on orders
+function useCurrencyCode(orders?: PaymentOrderData[]) {
+  const defaultCurrencyCode: CurrencyCode = 'USD'
+
+  return React.useMemo<CurrencyCode>(() => {
+    if (!Array.isArray(orders)) {
+      return defaultCurrencyCode
+    }
+
+    const order = orders.find(order => order.price_currency)
+
+    return order?.price_currency ?? defaultCurrencyCode
+  }, [orders])
 }
 
 function SummaryCard({ student }: SummaryCardProps) {
@@ -188,6 +203,8 @@ export default function StudentOrdersPage() {
 
   const studentOrdersQuery = useStudentOrders(studentId)
 
+  const currencyCode = useCurrencyCode(studentOrdersQuery.orders)
+
   const form = useForm<FormValues>({
     defaultValues: defaultFormValues,
   })
@@ -211,7 +228,7 @@ export default function StudentOrdersPage() {
   const { paidOrders, outstandingOrder, dueOrders } = studentOrdersQuery
 
   return (
-    <MoneyProvider currencyCode="MXN">
+    <MoneyProvider currencyCode={currencyCode}>
       <StyledForm onSubmit={form.handleSubmit(onSubmit)}>
         <SummaryCard student={student!} />
         <PaidCollapsibleFees dataSource={paidOrders} />
