@@ -54,7 +54,7 @@ export function CollapsibleFees({
           )
         }
       />
-      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+      <Collapse in={isExpanded} timeout="auto">
         {children}
       </Collapse>
     </Card>

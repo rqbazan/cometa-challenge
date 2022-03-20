@@ -25,13 +25,20 @@ export class MoneyFormatter {
   static toString(money: Money) {
     const dInstance = MoneyFormatter.toDinero(money)
 
-    return toFormat(dInstance, transformer)
+    return dInstance ? toFormat(dInstance, transformer) : ''
   }
 
   static toDinero(money: Money) {
-    const currency = currencies[money.currencyCode]
-
-    return dinero({ currency, amount: money.amount, scale: 0 })
+    try {
+      return dinero({
+        currency: currencies[money.currencyCode],
+        amount: money.amount,
+        scale: 0,
+      })
+    } catch (e) {
+      console.error(e)
+      return null
+    }
   }
 
   static fromDinero(dInstance: Dinero<TAmount>) {
