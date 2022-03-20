@@ -2,6 +2,12 @@
   "name": "cometa-challenge",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Ricardo Q. Bazan",
+    "email": "raquirozbazan@gmail.com",
+    "url": "https://rcrd.space"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,6 +25,16 @@
     "test:static": "run-p check:*",
     "test": "run-s test:*",
     "prepare": "husky install"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix --max-warnings=0"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -66,14 +82,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "4.6.2"
   },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix --max-warnings=0"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+  "engines": {
+    "node": ">=14.x"
   }
 }
