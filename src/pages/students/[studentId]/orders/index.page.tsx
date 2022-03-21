@@ -54,8 +54,6 @@ function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrde
     console.log({ orderIds: formValues.orderIds })
   }
 
-  console.log('StudentOrdersForm')
-
   return (
     <OrdersFormLayout onSubmit={form.handleSubmit(onSubmit)}>
       <SummaryCard student={student!} />
