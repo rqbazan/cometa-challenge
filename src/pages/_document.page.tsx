@@ -8,6 +8,8 @@ export default class CometaDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+          <script src="/__ENV.js" />
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/favicon.ico" />

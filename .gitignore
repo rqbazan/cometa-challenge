@@ -39,3 +39,6 @@ yarn-error.log*
 
 # storybook
 /public/storybook
+
+# custom
+/public/__ENV.js

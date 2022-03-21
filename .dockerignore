@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+node_modules
+yarn-debug.log
+yarn-error.log
+README.md
+.next
+docker
+.git
+.env.local
+.vercel
+*.tsbuildinfo
