@@ -1,4 +1,4 @@
-import { UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useWatch } from 'react-hook-form'
 import { PaymentOrder } from '~/entities'
 import { useScopedMoneyOps } from '~/hooks'
 import { IndexedObj } from '~/utils'
@@ -7,7 +7,7 @@ import { FormValues } from '../types'
 export function useCheckboxPropsGetter(form: UseFormReturn<FormValues>, indexedObj: IndexedObj) {
   const operations = useScopedMoneyOps()
 
-  const orderIds = form.watch('orderIds')
+  const orderIds = useWatch({ name: 'orderIds', control: form.control })
 
   function getDisabled(order: PaymentOrder) {
     const { prevId, nextId } = indexedObj[order.id]
