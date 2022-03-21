@@ -1,21 +1,19 @@
 import * as React from 'react'
-import Fade from '@mui/material/Fade'
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { PaymentOrderData } from '~/entities'
-import { KeysFormatter, MoneyFormatter } from '~/formatters'
-import { MoneyProvider, useScopedMoney, useStudentInfo, useStudentOrders } from '~/hooks'
+import { KeysFormatter } from '~/formatters'
+import { MoneyProvider, useStudentInfo, useStudentOrders } from '~/hooks'
 import { httpClient } from '~/lib/http-client'
-import { FloatingButton } from '~/ui/components'
 import { MainLayout } from '~/ui/layouts'
 import { createIndexedObj, isError, isLoading, reduceIdentifiables } from '~/utils'
 import {
   DueCollapsibleFees,
+  OrdersFormLayout,
   OutstandingCollapsibleFees,
   PaidCollapsibleFees,
-  StyledForm,
   SummaryCard,
 } from './components'
 import { useCurrencyCode } from './hooks'
@@ -48,10 +46,6 @@ function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrde
 
   const indexedObj = useIndexedObj(payableOrders)
 
-  const totalMoney = useScopedMoney()
-
-  const totalIsNotZero = totalMoney.amount > 0
-
   const form = useForm<FormValues>({
     defaultValues: defaultFormValues,
   })
@@ -61,7 +55,7 @@ function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrde
   }
 
   return (
-    <StyledForm onSubmit={form.handleSubmit(onSubmit)} extraPaddingBottom={totalIsNotZero}>
+    <OrdersFormLayout onSubmit={form.handleSubmit(onSubmit)}>
       <SummaryCard student={student!} />
       <PaidCollapsibleFees dataSource={paidOrders} />
       <OutstandingCollapsibleFees
@@ -70,12 +64,7 @@ function StudentOrdersForm({ studentInfoQuery, studentOrdersQuery }: StudentOrde
         indexedObj={indexedObj}
       />
       <DueCollapsibleFees form={form} dataSource={dueOrders} indexedObj={indexedObj} />
-      <Fade in={totalIsNotZero}>
-        <FloatingButton type="submit">{`Ir a pagar ${MoneyFormatter.toString(
-          totalMoney
-        )}`}</FloatingButton>
-      </Fade>
-    </StyledForm>
+    </OrdersFormLayout>
   )
 }
 

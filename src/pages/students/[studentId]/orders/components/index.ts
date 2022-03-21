@@ -1,4 +1,5 @@
 export { DueCollapsibleFees } from './due-collapsible-fees'
+export { OrdersFormLayout } from './orders-form-layout'
 export { OutstandingCollapsibleFees } from './outstanding-collapsible-fees'
 export { PaidCollapsibleFees } from './paid-collapsible-fees'
 export { StyledForm } from './styled-form'
