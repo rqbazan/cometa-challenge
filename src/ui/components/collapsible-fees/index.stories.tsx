@@ -27,3 +27,10 @@ export const DefaultView = Template.bind({})
 DefaultView.args = {
   title: 'Cuotas pagadas',
 }
+
+export const WithSubtitle = Template.bind({})
+
+WithSubtitle.args = {
+  ...DefaultView.args,
+  subtitle: 'Podrás seleccionar más de una',
+}

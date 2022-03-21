@@ -1,5 +1,6 @@
 import { PaymentOrder } from '~/entities'
 import { CollapsibleFees, DuePaymentOrderCard } from '~/ui/components'
+import { SELECTION_COPY } from '../constants'
 import { useCheckboxPropsGetter } from '../hooks'
 import { CustomCollapsibleFeesProps } from '../types'
 
@@ -7,7 +8,7 @@ export function DueCollapsibleFees({ dataSource, form, indexedObj }: CustomColla
   const getCheckboxProps = useCheckboxPropsGetter(form, indexedObj)
 
   return (
-    <CollapsibleFees title="Cuotas futuras">
+    <CollapsibleFees title="Cuotas futuras" subtitle={SELECTION_COPY}>
       {dataSource.map(order => {
         const paymentOrder = new PaymentOrder(order)
 

@@ -8,10 +8,15 @@ import { ExpandMoreIconButton } from '../expand-more-icon-button'
 
 interface CollapsibleFeesProps {
   title: string
+  subtitle?: string | null
   children: React.ReactNode
 }
 
-export function CollapsibleFees({ title, children }: CollapsibleFeesProps) {
+export function CollapsibleFees({
+  title,
+  children,
+  subtitle: injectedSubtitle = null,
+}: CollapsibleFeesProps) {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const isExpandable = React.Children.count(children) > 0
@@ -25,7 +30,7 @@ export function CollapsibleFees({ title, children }: CollapsibleFeesProps) {
       return 'Dale click para expandir'
     }
 
-    return 'Podrás seleccionar más de una'
+    return injectedSubtitle
   }
 
   const subtitle = getSubtitle()
